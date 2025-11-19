@@ -9,6 +9,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { UsuarioService } from '../../services/usuario';
 import { Usuario } from '../../models/usuario';
 
@@ -24,7 +25,8 @@ import { Usuario } from '../../models/usuario';
     NzFormModule,
     NzInputModule,
     NzPopconfirmModule,
-    NzIconModule
+    NzIconModule,
+    NzSpinModule
   ],
   templateUrl: './usuario-list.html',
   styleUrl: './usuario-list.css'
