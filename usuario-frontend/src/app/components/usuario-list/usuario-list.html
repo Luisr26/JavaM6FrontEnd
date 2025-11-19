@@ -15,24 +15,43 @@
     nzSize="middle">
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Cargo</th>
-        <th>Teléfono</th>
-        <th nzWidth="150px">Acciones</th>
+        <th nzWidth="35%">Nombre</th>
+        <th nzWidth="25%">Cargo</th>
+        <th nzWidth="20%">Teléfono</th>
+        <th nzWidth="20%" nzAlign="center">Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let usuario of usuariosTable.data">
-        <td>{{ usuario.name }}</td>
-        <td>{{ usuario.cargo }}</td>
-        <td>{{ usuario.telefono }}</td>
         <td>
+          <strong style="color: #e2e8f0; font-size: 15px;">{{ usuario.name }}</strong>
+        </td>
+        <td>
+          <span style="
+            background: #1e40af;
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          ">{{ usuario.cargo }}</span>
+        </td>
+        <td>
+          <span style="color: #94a3b8;">
+            <span nz-icon nzType="phone" style="margin-right: 6px;"></span>
+            {{ usuario.telefono }}
+          </span>
+        </td>
+        <td nzAlign="center">
           <button 
             nz-button 
             nzType="default" 
             nzSize="small"
             (click)="showModal(usuario)"
-            style="margin-right: 8px;">
+            style="margin-right: 8px;"
+            title="Editar usuario">
             <span nz-icon nzType="edit"></span>
           </button>
           <button 
@@ -42,7 +61,9 @@
             nzSize="small"
             nz-popconfirm
             nzPopconfirmTitle="¿Está seguro de eliminar este usuario?"
-            (nzOnConfirm)="deleteUsuario(usuario.id!)">
+            nzPopconfirmPlacement="topRight"
+            (nzOnConfirm)="deleteUsuario(usuario.id!)"
+            title="Eliminar usuario">
             <span nz-icon nzType="delete"></span>
           </button>
         </td>
@@ -54,17 +75,18 @@
     [(nzVisible)]="isModalVisible"
     [nzTitle]="isEditMode ? 'Editar Usuario' : 'Nuevo Usuario'"
     (nzOnCancel)="handleCancel()"
-    (nzOnOk)="handleOk()">
+    (nzOnOk)="handleOk()"
+    nzWidth="500px">
     <ng-container *nzModalContent>
-      <form nz-form>
+      <form nz-form nzLayout="vertical">
         <nz-form-item>
-          <nz-form-label nzRequired>Nombre</nz-form-label>
+          <nz-form-label nzRequired>Nombre Completo</nz-form-label>
           <nz-form-control>
             <input 
               nz-input 
               [(ngModel)]="currentUsuario.name" 
               name="name"
-              placeholder="Ingrese el nombre" />
+              placeholder="Ej: Juan Pérez" />
           </nz-form-control>
         </nz-form-item>
 
@@ -75,7 +97,7 @@
               nz-input 
               [(ngModel)]="currentUsuario.cargo" 
               name="cargo"
-              placeholder="Ingrese el cargo" />
+              placeholder="Ej: Desarrollador Senior" />
           </nz-form-control>
         </nz-form-item>
 
@@ -86,7 +108,7 @@
               nz-input 
               [(ngModel)]="currentUsuario.telefono" 
               name="telefono"
-              placeholder="Ingrese el teléfono" />
+              placeholder="Ej: +57 300 123 4567" />
           </nz-form-control>
         </nz-form-item>
       </form>
