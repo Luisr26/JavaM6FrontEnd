@@ -1,0 +1,95 @@
+<div class="usuario-container">
+  <div class="header">
+    <h1>Gestión de Usuarios</h1>
+    <button nz-button nzType="primary" (click)="showModal()">
+      <span nz-icon nzType="plus"></span>
+      Nuevo Usuario
+    </button>
+  </div>
+
+  <nz-table 
+    #usuariosTable 
+    [nzData]="usuarios" 
+    [nzLoading]="loading"
+    nzBordered
+    nzSize="middle">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Cargo</th>
+        <th>Teléfono</th>
+        <th nzWidth="150px">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuariosTable.data">
+        <td>{{ usuario.name }}</td>
+        <td>{{ usuario.cargo }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td>
+          <button 
+            nz-button 
+            nzType="default" 
+            nzSize="small"
+            (click)="showModal(usuario)"
+            style="margin-right: 8px;">
+            <span nz-icon nzType="edit"></span>
+          </button>
+          <button 
+            nz-button 
+            nzType="primary" 
+            nzDanger
+            nzSize="small"
+            nz-popconfirm
+            nzPopconfirmTitle="¿Está seguro de eliminar este usuario?"
+            (nzOnConfirm)="deleteUsuario(usuario.id!)">
+            <span nz-icon nzType="delete"></span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-modal
+    [(nzVisible)]="isModalVisible"
+    [nzTitle]="isEditMode ? 'Editar Usuario' : 'Nuevo Usuario'"
+    (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+      <form nz-form>
+        <nz-form-item>
+          <nz-form-label nzRequired>Nombre</nz-form-label>
+          <nz-form-control>
+            <input 
+              nz-input 
+              [(ngModel)]="currentUsuario.name" 
+              name="name"
+              placeholder="Ingrese el nombre" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>Cargo</nz-form-label>
+          <nz-form-control>
+            <input 
+              nz-input 
+              [(ngModel)]="currentUsuario.cargo" 
+              name="cargo"
+              placeholder="Ingrese el cargo" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired>Teléfono</nz-form-label>
+          <nz-form-control>
+            <input 
+              nz-input 
+              [(ngModel)]="currentUsuario.telefono" 
+              name="telefono"
+              placeholder="Ingrese el teléfono" />
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+  </nz-modal>
+</div>
