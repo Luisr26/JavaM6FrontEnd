@@ -7,6 +7,34 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
+import { provideNzIcons } from 'ng-zorro-antd/icon';
+import {
+  TeamOutline,
+  DashboardOutline,
+  SettingOutline,
+  PlusOutline,
+  UserAddOutline,
+  ClockCircleOutline,
+  UserOutline,
+  IdcardOutline,
+  PhoneOutline,
+  EditOutline,
+  DeleteOutline
+} from '@ant-design/icons-angular/icons';
+
+const icons = [
+  TeamOutline,
+  DashboardOutline,
+  SettingOutline,
+  PlusOutline,
+  UserAddOutline,
+  ClockCircleOutline,
+  UserOutline,
+  IdcardOutline,
+  PhoneOutline,
+  EditOutline,
+  DeleteOutline
+];
 
 registerLocaleData(en);
 
@@ -14,6 +42,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), provideNzI18n(en_US), provideAnimationsAsync(), provideHttpClient()
+    provideRouter(routes),
+    provideNzI18n(en_US),
+    provideAnimationsAsync(),
+    provideHttpClient(),
+    provideNzIcons(icons)
   ]
 };
