@@ -1,142 +1,116 @@
-<div class="app-layout">
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <h2>👥 Usuario App</h2>
-    </div>
-    <nav class="sidebar-nav">
-      <a class="nav-item active">
-        <span nz-icon nzType="team"></span>
-        <span>Usuarios</span>
-      </a>
-      <a class="nav-item">
-        <span nz-icon nzType="dashboard"></span>
-        <span>Dashboard</span>
-      </a>
-      <a class="nav-item">
-        <span nz-icon nzType="setting"></span>
-        <span>Configuración</span>
-      </a>
-    </nav>
+<!-- Header -->
+<div class="content-header">
+  <div>
+    <h1>Gestión de Usuarios</h1>
+    <p class="subtitle">Administra y visualiza todos los usuarios del sistema</p>
   </div>
+  <button nz-button nzType="primary" nzSize="large" (click)="showModal()">
+    <span nz-icon nzType="plus"></span>
+    Nuevo Usuario
+  </button>
+</div>
 
-  <!-- Main Content -->
-  <div class="main-content">
-    <!-- Header -->
-    <div class="content-header">
-      <div>
-        <h1>Gestión de Usuarios</h1>
-        <p class="subtitle">Administra y visualiza todos los usuarios del sistema</p>
-      </div>
-      <button nz-button nzType="primary" nzSize="large" (click)="showModal()">
-        <span nz-icon nzType="plus"></span>
-        Nuevo Usuario
-      </button>
+<!-- Stats Cards -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon" style="background: #2563eb20;">
+      <span nz-icon nzType="team" style="color: #2563eb; font-size: 24px;"></span>
     </div>
-
-    <!-- Stats Cards -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon" style="background: #2563eb20;">
-          <span nz-icon nzType="team" style="color: #2563eb; font-size: 24px;"></span>
-        </div>
-        <div class="stat-info">
-          <p class="stat-label">Total Usuarios</p>
-          <h3 class="stat-value">{{ usuarios.length }}</h3>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background: #10b98120;">
-          <span nz-icon nzType="user-add" style="color: #10b981; font-size: 24px;"></span>
-        </div>
-        <div class="stat-info">
-          <p class="stat-label">Activos</p>
-          <h3 class="stat-value">{{ usuarios.length }}</h3>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background: #f59e0b20;">
-          <span nz-icon nzType="clock-circle" style="color: #f59e0b; font-size: 24px;"></span>
-        </div>
-        <div class="stat-info">
-          <p class="stat-label">Recientes</p>
-          <h3 class="stat-value">{{ usuarios.length > 3 ? 3 : usuarios.length }}</h3>
-        </div>
-      </div>
-    </div>
-
-    <!-- Search Bar -->
-    <div class="search-section">
-      <input 
-        nz-input 
-        placeholder="Buscar usuarios por nombre, cargo o teléfono..." 
-        nzSize="large"
-        prefix="search"
-        style="max-width: 500px;" />
-    </div>
-
-    <!-- Loading State -->
-    <div *ngIf="loading" class="loading-container">
-      <nz-spin nzSize="large"></nz-spin>
-    </div>
-
-    <!-- Users Grid -->
-    <div *ngIf="!loading" class="users-grid">
-      <div class="user-card" *ngFor="let usuario of usuarios">
-        <div class="card-header">
-          <div class="user-avatar">
-            <span nz-icon nzType="user" style="font-size: 24px;"></span>
-          </div>
-          <div class="card-actions">
-            <button 
-              nz-button 
-              nzType="text" 
-              nzSize="small"
-              (click)="showModal(usuario)"
-              title="Editar">
-              <span nz-icon nzType="edit"></span>
-            </button>
-            <button 
-              nz-button 
-              nzType="text" 
-              nzDanger
-              nzSize="small"
-              nz-popconfirm
-              nzPopconfirmTitle="¿Eliminar este usuario?"
-              nzPopconfirmPlacement="topRight"
-              (nzOnConfirm)="deleteUsuario(usuario.id!)"
-              title="Eliminar">
-              <span nz-icon nzType="delete"></span>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-          <h3 class="user-name">{{ usuario.name }}</h3>
-          <div class="user-info">
-            <div class="info-item">
-              <span nz-icon nzType="idcard" class="info-icon"></span>
-              <span class="cargo-badge">{{ usuario.cargo }}</span>
-            </div>
-            <div class="info-item">
-              <span nz-icon nzType="phone" class="info-icon"></span>
-              <span>{{ usuario.telefono }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Empty State -->
-    <div *ngIf="!loading && usuarios.length === 0" class="empty-state">
-      <span nz-icon nzType="inbox" style="font-size: 64px; color: #666;"></span>
-      <h3>No hay usuarios</h3>
-      <p>Comienza agregando tu primer usuario</p>
-      <button nz-button nzType="primary" (click)="showModal()">
-        <span nz-icon nzType="plus"></span>
-        Crear Usuario
-      </button>
+    <div class="stat-info">
+      <p class="stat-label">Total Usuarios</p>
+      <h3 class="stat-value">{{ usuarios.length }}</h3>
     </div>
   </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background: #10b98120;">
+      <span nz-icon nzType="user-add" style="color: #10b981; font-size: 24px;"></span>
+    </div>
+    <div class="stat-info">
+      <p class="stat-label">Activos</p>
+      <h3 class="stat-value">{{ usuarios.length }}</h3>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background: #f59e0b20;">
+      <span nz-icon nzType="clock-circle" style="color: #f59e0b; font-size: 24px;"></span>
+    </div>
+    <div class="stat-info">
+      <p class="stat-label">Recientes</p>
+      <h3 class="stat-value">{{ usuarios.length > 3 ? 3 : usuarios.length }}</h3>
+    </div>
+  </div>
+</div>
+
+<!-- Search Bar -->
+<div class="search-section">
+  <input 
+    nz-input 
+    placeholder="Buscar usuarios por nombre, cargo o teléfono..." 
+    nzSize="large"
+    prefix="search"
+    style="max-width: 500px;" />
+</div>
+
+<!-- Loading State -->
+<div *ngIf="loading" class="loading-container">
+  <nz-spin nzSize="large"></nz-spin>
+</div>
+
+<!-- Users Grid -->
+<div *ngIf="!loading" class="users-grid">
+  <div class="user-card" *ngFor="let usuario of usuarios">
+    <div class="card-header">
+      <div class="user-avatar">
+        <span nz-icon nzType="user" style="font-size: 24px;"></span>
+      </div>
+      <div class="card-actions">
+        <button 
+          nz-button 
+          nzType="text" 
+          nzSize="small"
+          (click)="showModal(usuario)"
+          title="Editar">
+          <span nz-icon nzType="edit"></span>
+        </button>
+        <button 
+          nz-button 
+          nzType="text" 
+          nzDanger
+          nzSize="small"
+          nz-popconfirm
+          nzPopconfirmTitle="¿Eliminar este usuario?"
+          nzPopconfirmPlacement="topRight"
+          (nzOnConfirm)="deleteUsuario(usuario.id!)"
+          title="Eliminar">
+          <span nz-icon nzType="delete"></span>
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="user-name">{{ usuario.name }}</h3>
+      <div class="user-info">
+        <div class="info-item">
+          <span nz-icon nzType="idcard" class="info-icon"></span>
+          <span class="cargo-badge">{{ usuario.cargo }}</span>
+        </div>
+        <div class="info-item">
+          <span nz-icon nzType="phone" class="info-icon"></span>
+          <span>{{ usuario.telefono }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Empty State -->
+<div *ngIf="!loading && usuarios.length === 0" class="empty-state">
+  <span nz-icon nzType="inbox" style="font-size: 64px; color: #666;"></span>
+  <h3>No hay usuarios</h3>
+  <p>Comienza agregando tu primer usuario</p>
+  <button nz-button nzType="primary" (click)="showModal()">
+    <span nz-icon nzType="plus"></span>
+    Crear Usuario
+  </button>
 </div>
 
 <!-- Modal -->
