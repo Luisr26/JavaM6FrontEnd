@@ -1,0 +1,144 @@
+<div class="users-grid">
+  <div class="user-card" *ngFor="let event of events">
+    <div class="card-header">
+      <div class="user-avatar" style="background: #8b5cf620;">
+        <span nz-icon nzType="calendar" style="font-size: 24px; color: #8b5cf6;"></span>
+      </div>
+      <div class="card-actions">
+        <button 
+          nz-button 
+          nzType="text" 
+          nzSize="small"
+          (click)="showModal(event)"
+          title="Editar">
+          <span nz-icon nzType="edit"></span>
+        </button>
+        <button 
+          nz-button 
+          nzType="text" 
+          nzDanger
+          nzSize="small"
+          nz-popconfirm
+          nzPopconfirmTitle="¿Eliminar este evento?"
+          nzPopconfirmPlacement="topRight"
+          (nzOnConfirm)="deleteEvent(event.id!)"
+          title="Eliminar">
+          <span nz-icon nzType="delete"></span>
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3 class="user-name">{{ event.nombre }}</h3>
+      <div class="user-info">
+        <div class="info-item">
+          <span nz-icon nzType="home" class="info-icon"></span>
+          <span>{{ getVenueName(event.venueId) }}</span>
+        </div>
+        <div class="info-item">
+          <span nz-icon nzType="clock-circle" class="info-icon"></span>
+          <span>{{ event.fechaInicio | date:'short' }} - {{ event.fechaFin | date:'short' }}</span>
+        </div>
+        <div class="info-item" *ngIf="event.capacidadMaxima">
+          <span nz-icon nzType="team" class="info-icon"></span>
+          <span class="cargo-badge">Cap: {{ event.capacidadMaxima }}</span>
+        </div>
+        <div class="info-item" *ngIf="event.descripcion">
+          <span nz-icon nzType="info-circle" class="info-icon"></span>
+          <span>{{ event.descripcion }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading && events.length === 0" class="empty-state">
+  <span nz-icon nzType="inbox" style="font-size: 64px; color: #666;"></span>
+  <h3>No hay eventos</h3>
+  <p>Comienza agregando tu primer evento</p>
+  <button nz-button nzType="primary" (click)="showModal()">
+    <span nz-icon nzType="plus"></span>
+    Crear Evento
+  </button>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isModalVisible"
+  [nzTitle]="isEditMode ? 'Editar Evento' : 'Nuevo Evento'"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  nzWidth="600px">
+  <ng-container *nzModalContent>
+    <form nz-form nzLayout="vertical">
+      <nz-form-item>
+        <nz-form-label nzRequired>Nombre del Evento</nz-form-label>
+        <nz-form-control>
+          <input 
+            nz-input 
+            [(ngModel)]="currentEvent.nombre" 
+            name="nombre"
+            placeholder="Ej: Conferencia de Tecnología 2024" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Venue</nz-form-label>
+        <nz-form-control>
+          <nz-select 
+            [(ngModel)]="currentEvent.venueId" 
+            name="venueId"
+            nzPlaceHolder="Selecciona un venue">
+            <nz-option *ngFor="let venue of venues" [nzValue]="venue.id!" [nzLabel]="venue.nombre"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Fecha de Inicio</nz-form-label>
+        <nz-form-control>
+          <input 
+            nz-input 
+            type="datetime-local"
+            [(ngModel)]="currentEvent.fechaInicio" 
+            name="fechaInicio" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Fecha de Fin</nz-form-label>
+        <nz-form-control>
+          <input 
+            nz-input 
+            type="datetime-local"
+            [(ngModel)]="currentEvent.fechaFin" 
+            name="fechaFin" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>Capacidad Máxima</nz-form-label>
+        <nz-form-control>
+          <nz-input-number 
+            [(ngModel)]="currentEvent.capacidadMaxima" 
+            name="capacidadMaxima"
+            [nzMin]="1"
+            [nzMax]="100000"
+            style="width: 100%"
+            placeholder="Ej: 500">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>Descripción</nz-form-label>
+        <nz-form-control>
+          <textarea 
+            nz-input 
+            [(ngModel)]="currentEvent.descripcion" 
+            name="descripcion"
+            rows="3"
+            placeholder="Descripción del evento (opcional)"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>
